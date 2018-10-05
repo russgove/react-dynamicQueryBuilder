@@ -1,0 +1,11 @@
+{
+  "@microsoft/generator-sharepoint": {
+    "isCreatingSolution": true,
+    "environment": "spo",
+    "version": "1.6.0",
+    "libraryName": "react-dynamic-caml-builder",
+    "libraryId": "6abae799-4ac0-44bd-8457-9782e4f72751",
+    "packageManager": "npm",
+    "componentType": "webpart"
+  }
+}

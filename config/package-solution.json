@@ -1,0 +1,13 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/spfx-build/package-solution.schema.json",
+  "solution": {
+    "name": "react-dynamic-caml-builder-client-side-solution",
+    "id": "6abae799-4ac0-44bd-8457-9782e4f72751",
+    "version": "1.0.0.0",
+    "includeClientSideAssets": true,
+    "skipFeatureDeployment": true
+  },
+  "paths": {
+    "zippedPackage": "solution/react-dynamic-caml-builder.sppkg"
+  }
+}
