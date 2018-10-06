@@ -5,10 +5,10 @@ import {
  PropertyPaneFieldType
 } from '@microsoft/sp-webpart-base';
 import { IDropdownOption } from 'office-ui-fabric-react/lib/components/Dropdown';
-import { IPropertyPaneAsyncDropdownProps } from './IPropertyPaneAsyncDropdownProps';
-import { IPropertyPaneAsyncDropdownInternalProps } from './IPropertyPaneAsyncDropdownInternalProps';
-import AsyncDropdown from './components/AsyncDropdown';
-import { IAsyncDropdownProps } from './components/IAsyncDropdownProps';
+import { IPropertyPaneAsyncDropdownProps } from './IPropertyPaneFieldOptionPanelProps';
+import { IPropertyPaneAsyncDropdownInternalProps } from './IPropertyPaneFieldOptionPanelInternalProps';
+import FieldOptionPanel from './components/FieldOptionPanel';
+import { IAsyncDropdownProps } from './components/IFieldOptionPanelProps';
 
 export class PropertyPaneAsyncDropdown implements IPropertyPaneField<IPropertyPaneAsyncDropdownProps> {
  public type: PropertyPaneFieldType = PropertyPaneFieldType.Custom;
@@ -43,7 +43,7 @@ export class PropertyPaneAsyncDropdown implements IPropertyPaneField<IPropertyPa
      this.elem = elem;
    }
 
-   const element: React.ReactElement<IAsyncDropdownProps> = React.createElement(AsyncDropdown, {
+   const element: React.ReactElement<IAsyncDropdownProps> = React.createElement(FieldOptionPanel, {
      label: this.properties.label,
      loadOptions: this.properties.loadOptions,
      onChanged: this.onChanged.bind(this),

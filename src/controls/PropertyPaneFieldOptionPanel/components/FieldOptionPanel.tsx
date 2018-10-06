@@ -2,11 +2,11 @@ import * as React from 'react';
 import { Dropdown, IDropdownOption } from 'office-ui-fabric-react/lib/components/Dropdown';
 import { DefaultButton, IButtonProps } from 'office-ui-fabric-react/lib/Button';
 import { Spinner } from 'office-ui-fabric-react/lib/components/Spinner';
-import { IAsyncDropdownProps } from './IAsyncDropdownProps';
-import { IAsyncDropdownState } from './IAsyncDropdownState';
+import { IAsyncDropdownProps } from './IFieldOptionPanelProps';
+import { IAsyncDropdownState } from './IFieldOptionPanelState';
 import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 
-export default class AsyncDropdown extends React.Component<IAsyncDropdownProps, IAsyncDropdownState> {
+export default class FieldOptionPanel extends React.Component<IAsyncDropdownProps, IAsyncDropdownState> {
     private selectedKey: React.ReactText;
 
     constructor(props: IAsyncDropdownProps, state: IAsyncDropdownState) {
@@ -57,10 +57,10 @@ export default class AsyncDropdown extends React.Component<IAsyncDropdownProps, 
     }
 
     public showPanel() {
-        this.setState((current) => ({ ...current, showPanel: true }))
+        this.setState((current) => ({ ...current, showPanel: true }));
     }
     public hidePanel() {
-        this.setState((current) => ({ ...current, showPanel: false }))
+        this.setState((current) => ({ ...current, showPanel: false }));
     }
     public render(): JSX.Element {
         debugger;
@@ -86,7 +86,7 @@ export default class AsyncDropdown extends React.Component<IAsyncDropdownProps, 
                         <span>Content goes here.</span>
                     </Panel>
                 </div>
-            )
+            );
         }
    
     private onChanged(option: IDropdownOption, index?: number): void {

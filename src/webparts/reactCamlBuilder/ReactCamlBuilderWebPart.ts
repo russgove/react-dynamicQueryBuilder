@@ -6,7 +6,7 @@ import {
   IPropertyPaneConfiguration,
   PropertyPaneTextField
 } from '@microsoft/sp-webpart-base';
-import { PropertyPaneAsyncDropdown } from '../../controls/PropertyPaneAsyncDropdown/PropertyPaneAsyncDropdown';
+import { PropertyPaneAsyncDropdown } from '../../controls/PropertyPaneFieldOptionPanel/PropertyPaneFieldOptionPanel';
 import { IDropdownOption } from 'office-ui-fabric-react/lib/components/Dropdown';
 import { update, get } from '@microsoft/sp-lodash-subset';
 import * as strings from 'ReactCamlBuilderWebPartStrings';
