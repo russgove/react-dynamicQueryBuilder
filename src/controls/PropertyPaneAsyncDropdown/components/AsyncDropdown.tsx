@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Dropdown, IDropdownOption } from 'office-ui-fabric-react/lib/components/Dropdown';
-import { Button, ButtonType } from 'office-ui-fabric-react/lib/components/Button';
+import { DefaultButton, IButtonProps } from 'office-ui-fabric-react/lib/Button';
 import { Spinner } from 'office-ui-fabric-react/lib/components/Spinner';
 import { IAsyncDropdownProps } from './IAsyncDropdownProps';
 import { IAsyncDropdownState } from './IAsyncDropdownState';
@@ -77,9 +77,12 @@ export default class AsyncDropdown extends React.Component<IAsyncDropdownProps, 
         }
         else{
             return(
-                <Button onClick={this.buttonClicked.bind(this)}>
-
-                </Button> 
+                <DefaultButton
+            data-automation-id="test"
+         
+            text="Set Column Options"
+            onClick={this.buttonClicked.bind(this)} 
+          />
             )
         }
     }
