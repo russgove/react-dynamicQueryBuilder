@@ -4,6 +4,7 @@ import { DefaultButton, IButtonProps } from 'office-ui-fabric-react/lib/Button';
 import { Spinner } from 'office-ui-fabric-react/lib/components/Spinner';
 import { IAsyncDropdownProps } from './IAsyncDropdownProps';
 import { IAsyncDropdownState } from './IAsyncDropdownState';
+import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 
 export default class AsyncDropdown extends React.Component<IAsyncDropdownProps, IAsyncDropdownState> {
     private selectedKey: React.ReactText;
@@ -55,10 +56,14 @@ export default class AsyncDropdown extends React.Component<IAsyncDropdownProps, 
             });
     }
 
-    public buttonClicked(){
-        this.setState((current)=>({...current,showPanel:true}))
+    public showPanel() {
+        this.setState((current) => ({ ...current, showPanel: true }))
+    }
+    public hidePanel() {
+        this.setState((current) => ({ ...current, showPanel: false }))
     }
     public render(): JSX.Element {
+        debugger;
         const loading: JSX.Element = this.state.loading ? <div><Spinner label={'Loading options...'} /></div> : <div />;
         const error: JSX.Element = this.state.error !== undefined ? <div className={'ms-TextField-errorMessage ms-u-slideDownIn20'}>Error while loading items: {this.state.error}</div> : <div />;
         if (this.state.showPanel) {
@@ -75,14 +80,26 @@ export default class AsyncDropdown extends React.Component<IAsyncDropdownProps, 
                 </div>
             );
         }
-        else{
-            return(
-                <DefaultButton
-            data-automation-id="test"
-         
-            text="Set Column Options"
-            onClick={this.buttonClicked.bind(this)} 
-          />
+        else {
+            return (
+                <div>
+                    <DefaultButton
+                        data-automation-id="test"
+
+                        text="Set Column Options"
+                        onClick={this.showPanel.bind(this)}
+                    />
+                    <Panel
+                        isBlocking={false}
+                        isOpen={this.state.showPanel}
+                        onDismiss={this.hidePanel.bind(this)}
+                        type={PanelType.medium}
+                        headerText="Non-Modal Panel"
+                        closeButtonAriaLabel="Close"
+                    >
+                        <span>Content goes here.</span>
+                    </Panel>
+                </div>
             )
         }
     }
