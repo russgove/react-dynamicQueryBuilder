@@ -21,7 +21,7 @@ export class PropertyPaneFieldOptionPanel implements IPropertyPaneField<IPropert
    this.properties = {
      key: properties.label,
      label: properties.label,
-     loadOptions: properties.loadOptions,
+     //loadOptions: properties.loadOptions,
      onPropertyChange: properties.onPropertyChange,
      selectedKey: properties.selectedKey,
      disabled: properties.disabled,
@@ -45,7 +45,7 @@ export class PropertyPaneFieldOptionPanel implements IPropertyPaneField<IPropert
 
    const element: React.ReactElement<IFieldOptionPanelProps> = React.createElement(FieldOptionPanel, {
      label: this.properties.label,
-     loadOptions: this.properties.loadOptions,
+    
      onChanged: this.onChanged.bind(this),
      selectedKey: this.properties.selectedKey,
      disabled: this.properties.disabled,

@@ -23,38 +23,17 @@ export default class FieldOptionPanel extends React.Component<IFieldOptionPanelP
     }
 
     public componentDidMount(): void {
-        this.loadOptions();
+       
     }
 
     public componentDidUpdate(prevProps: IFieldOptionPanelProps, prevState: IFieldOptionPanelState): void {
         if (this.props.disabled !== prevProps.disabled ||
             this.props.stateKey !== prevProps.stateKey) {
-            this.loadOptions();
+
         }
     }
 
-    private loadOptions(): void {
-        this.setState({
-            loading: true,
-            error: undefined,
-            options: undefined
-        });
 
-        this.props.loadOptions()
-            .then((options: IDropdownOption[]): void => {
-                this.setState({
-                    loading: false,
-                    error: undefined,
-                    options: options
-                });
-            }, (error: any): void => {
-                this.setState((prevState: IFieldOptionPanelState, props: IFieldOptionPanelProps): IFieldOptionPanelState => {
-                    prevState.loading = false;
-                    prevState.error = error;
-                    return prevState;
-                });
-            });
-    }
 
     public showPanel() {
         this.setState((current) => ({ ...current, showPanel: true }));

@@ -2,7 +2,7 @@ import { IDropdownOption } from 'office-ui-fabric-react/lib/components/Dropdown'
 
 export interface IFieldOptionPanelProps {
  label: string;
- loadOptions: () => Promise<IDropdownOption[]>;
+ //loadOptions: () => Promise<IDropdownOption[]>;
  onChanged: (option: IDropdownOption, index?: number) => void;
  selectedKey: string | number;
  disabled: boolean;
