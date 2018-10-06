@@ -66,21 +66,7 @@ export default class AsyncDropdown extends React.Component<IAsyncDropdownProps, 
         debugger;
         const loading: JSX.Element = this.state.loading ? <div><Spinner label={'Loading options...'} /></div> : <div />;
         const error: JSX.Element = this.state.error !== undefined ? <div className={'ms-TextField-errorMessage ms-u-slideDownIn20'}>Error while loading items: {this.state.error}</div> : <div />;
-        if (this.state.showPanel) {
-            return (
-
-                <div>
-                    <Dropdown label={this.props.label}
-                        disabled={this.props.disabled || this.state.loading || this.state.error !== undefined}
-                        onChanged={this.onChanged.bind(this)}
-                        selectedKey={this.selectedKey}
-                        options={this.state.options} />
-                    {loading}
-                    {error}
-                </div>
-            );
-        }
-        else {
+   
             return (
                 <div>
                     <DefaultButton
@@ -102,8 +88,7 @@ export default class AsyncDropdown extends React.Component<IAsyncDropdownProps, 
                 </div>
             )
         }
-    }
-
+   
     private onChanged(option: IDropdownOption, index?: number): void {
         this.selectedKey = option.key;
         // reset previously selected options
