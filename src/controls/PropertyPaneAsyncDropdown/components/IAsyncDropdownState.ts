@@ -4,4 +4,5 @@ export interface IAsyncDropdownState {
  loading: boolean;
  options: IDropdownOption[];
  error: string;
+ showPanel:boolean;
 }
