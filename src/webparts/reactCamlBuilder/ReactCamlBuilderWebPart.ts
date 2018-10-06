@@ -1,6 +1,7 @@
 import * as React from 'react';
 import * as ReactDom from 'react-dom';
 import { Version } from '@microsoft/sp-core-library';
+import { sp } from "@pnp/sp";
 import {
   BaseClientSideWebPart,
   IPropertyPaneConfiguration,
@@ -24,7 +25,17 @@ export interface IReactCamlBuilderWebPartProps {
 export default class ReactCamlBuilderWebPart extends BaseClientSideWebPart<IReactCamlBuilderWebPartProps> {
 
 
- 
+  public onInit(): Promise<void> {
+
+    return super.onInit().then(_ => {
+  
+      // other init code may be present
+  
+      sp.setup({
+        spfxContext: this.context
+      });
+    });
+  }
   public render(): void {
     const element: React.ReactElement<IReactCamlBuilderProps > = React.createElement(
       ReactCamlBuilder,
