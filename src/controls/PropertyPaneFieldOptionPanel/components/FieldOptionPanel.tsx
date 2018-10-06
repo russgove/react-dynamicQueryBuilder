@@ -2,14 +2,14 @@ import * as React from 'react';
 import { Dropdown, IDropdownOption } from 'office-ui-fabric-react/lib/components/Dropdown';
 import { DefaultButton, IButtonProps } from 'office-ui-fabric-react/lib/Button';
 import { Spinner } from 'office-ui-fabric-react/lib/components/Spinner';
-import { IAsyncDropdownProps } from './IFieldOptionPanelProps';
-import { IAsyncDropdownState } from './IFieldOptionPanelState';
+import { IFieldOptionPanelProps } from './IFieldOptionPanelProps';
+import { IFieldOptionPanelState } from './IFieldOptionPanelState';
 import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
 
-export default class FieldOptionPanel extends React.Component<IAsyncDropdownProps, IAsyncDropdownState> {
+export default class FieldOptionPanel extends React.Component<IFieldOptionPanelProps, IFieldOptionPanelState> {
     private selectedKey: React.ReactText;
 
-    constructor(props: IAsyncDropdownProps, state: IAsyncDropdownState) {
+    constructor(props: IFieldOptionPanelProps, state: IFieldOptionPanelState) {
         debugger;
         super(props);
         this.selectedKey = props.selectedKey;
@@ -26,7 +26,7 @@ export default class FieldOptionPanel extends React.Component<IAsyncDropdownProp
         this.loadOptions();
     }
 
-    public componentDidUpdate(prevProps: IAsyncDropdownProps, prevState: IAsyncDropdownState): void {
+    public componentDidUpdate(prevProps: IFieldOptionPanelProps, prevState: IFieldOptionPanelState): void {
         if (this.props.disabled !== prevProps.disabled ||
             this.props.stateKey !== prevProps.stateKey) {
             this.loadOptions();
@@ -48,7 +48,7 @@ export default class FieldOptionPanel extends React.Component<IAsyncDropdownProp
                     options: options
                 });
             }, (error: any): void => {
-                this.setState((prevState: IAsyncDropdownState, props: IAsyncDropdownProps): IAsyncDropdownState => {
+                this.setState((prevState: IFieldOptionPanelState, props: IFieldOptionPanelProps): IFieldOptionPanelState => {
                     prevState.loading = false;
                     prevState.error = error;
                     return prevState;
@@ -98,7 +98,7 @@ export default class FieldOptionPanel extends React.Component<IAsyncDropdownProp
                 o.selected = false;
             }
         });
-        this.setState((prevState: IAsyncDropdownState, props: IAsyncDropdownProps): IAsyncDropdownState => {
+        this.setState((prevState: IFieldOptionPanelState, props: IFieldOptionPanelProps): IFieldOptionPanelState => {
             prevState.options = options;
             return prevState;
         });

@@ -8,7 +8,7 @@ import { IDropdownOption } from 'office-ui-fabric-react/lib/components/Dropdown'
 import { IPropertyPaneAsyncDropdownProps } from './IPropertyPaneFieldOptionPanelProps';
 import { IPropertyPaneAsyncDropdownInternalProps } from './IPropertyPaneFieldOptionPanelInternalProps';
 import FieldOptionPanel from './components/FieldOptionPanel';
-import { IAsyncDropdownProps } from './components/IFieldOptionPanelProps';
+import { IFieldOptionPanelProps } from './components/IFieldOptionPanelProps';
 
 export class PropertyPaneAsyncDropdown implements IPropertyPaneField<IPropertyPaneAsyncDropdownProps> {
  public type: PropertyPaneFieldType = PropertyPaneFieldType.Custom;
@@ -43,7 +43,7 @@ export class PropertyPaneAsyncDropdown implements IPropertyPaneField<IPropertyPa
      this.elem = elem;
    }
 
-   const element: React.ReactElement<IAsyncDropdownProps> = React.createElement(FieldOptionPanel, {
+   const element: React.ReactElement<IFieldOptionPanelProps> = React.createElement(FieldOptionPanel, {
      label: this.properties.label,
      loadOptions: this.properties.loadOptions,
      onChanged: this.onChanged.bind(this),
