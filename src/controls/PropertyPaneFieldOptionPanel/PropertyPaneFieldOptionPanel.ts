@@ -5,18 +5,18 @@ import {
  PropertyPaneFieldType
 } from '@microsoft/sp-webpart-base';
 import { IDropdownOption } from 'office-ui-fabric-react/lib/components/Dropdown';
-import { IPropertyPaneAsyncDropdownProps } from './IPropertyPaneFieldOptionPanelProps';
-import { IPropertyPaneAsyncDropdownInternalProps } from './IPropertyPaneFieldOptionPanelInternalProps';
+import { IPropertyPaneFieldOptionPanelProps } from './IPropertyPaneFieldOptionPanelProps';
+import { IPropertyPaneFieldOptionPanelInternalProps } from './IPropertyPaneFieldOptionPanelInternalProps';
 import FieldOptionPanel from './components/FieldOptionPanel';
 import { IFieldOptionPanelProps } from './components/IFieldOptionPanelProps';
 
-export class PropertyPaneAsyncDropdown implements IPropertyPaneField<IPropertyPaneAsyncDropdownProps> {
+export class PropertyPaneFieldOptionPanel implements IPropertyPaneField<IPropertyPaneFieldOptionPanelProps> {
  public type: PropertyPaneFieldType = PropertyPaneFieldType.Custom;
  public targetProperty: string;
- public properties: IPropertyPaneAsyncDropdownInternalProps;
+ public properties: IPropertyPaneFieldOptionPanelInternalProps;
  private elem: HTMLElement;
 
- constructor(targetProperty: string, properties: IPropertyPaneAsyncDropdownProps) {
+ constructor(targetProperty: string, properties: IPropertyPaneFieldOptionPanelProps) {
    this.targetProperty = targetProperty;
    this.properties = {
      key: properties.label,

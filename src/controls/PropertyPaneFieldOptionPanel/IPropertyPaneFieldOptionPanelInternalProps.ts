@@ -1,5 +1,5 @@
 import { IPropertyPaneCustomFieldProps } from '@microsoft/sp-webpart-base';
-import { IPropertyPaneAsyncDropdownProps } from './IPropertyPaneFieldOptionPanelProps';
+import { IPropertyPaneFieldOptionPanelProps } from './IPropertyPaneFieldOptionPanelProps';
 
-export interface IPropertyPaneAsyncDropdownInternalProps extends IPropertyPaneAsyncDropdownProps, IPropertyPaneCustomFieldProps {
+export interface IPropertyPaneFieldOptionPanelInternalProps extends IPropertyPaneFieldOptionPanelProps, IPropertyPaneCustomFieldProps {
 }

@@ -6,7 +6,7 @@ import {
   IPropertyPaneConfiguration,
   PropertyPaneTextField
 } from '@microsoft/sp-webpart-base';
-import { PropertyPaneAsyncDropdown } from '../../controls/PropertyPaneFieldOptionPanel/PropertyPaneFieldOptionPanel';
+import { PropertyPaneFieldOptionPanel } from '../../controls/PropertyPaneFieldOptionPanel/PropertyPaneFieldOptionPanel';
 import { IDropdownOption } from 'office-ui-fabric-react/lib/components/Dropdown';
 import { update, get } from '@microsoft/sp-lodash-subset';
 import * as strings from 'ReactCamlBuilderWebPartStrings';
@@ -75,7 +75,7 @@ export default class ReactCamlBuilderWebPart extends BaseClientSideWebPart<IReac
             {
               groupName: strings.BasicGroupName,
               groupFields: [
-                new PropertyPaneAsyncDropdown('listName', {
+                new PropertyPaneFieldOptionPanel('listName', {
                   label: "test",
                   loadOptions: this.loadLists.bind(this),
                   onPropertyChange: this.onListChange.bind(this),
