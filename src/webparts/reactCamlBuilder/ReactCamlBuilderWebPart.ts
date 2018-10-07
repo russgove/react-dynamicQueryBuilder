@@ -18,7 +18,7 @@ import { PropertyFieldListPicker, PropertyFieldListPickerOrderBy } from '@pnp/sp
 import FieldOptionPanel from '../../controls/PropertyPaneFieldOptionPanel/components/FieldOptionPanel';
 export interface IReactCamlBuilderWebPartProps {
 
-  listName:string;
+  listId:string;
 
 }
 
@@ -40,7 +40,7 @@ export default class ReactCamlBuilderWebPart extends BaseClientSideWebPart<IReac
     const element: React.ReactElement<IReactCamlBuilderProps > = React.createElement(
       ReactCamlBuilder,
       {
-        description: this.properties.listName
+        description: this.properties.listId
       }
     );
 
@@ -58,7 +58,7 @@ protected fieldOptionsChanged():void{
   debugger;
 }
   protected getPropertyPaneConfiguration(): IPropertyPaneConfiguration {
-    debugger;
+    ;
     return {
       pages: [
         {
@@ -69,9 +69,9 @@ protected fieldOptionsChanged():void{
             {
               groupName: strings.BasicGroupName,
               groupFields: [
-                PropertyFieldListPicker('listName', {
+                PropertyFieldListPicker('listId', {
                   label: 'Select a list',
-                  selectedList: this.properties.listName,
+                  selectedList: this.properties.listId,
                   includeHidden: false,
                   //baseTemplate: 109,
                   orderBy: PropertyFieldListPickerOrderBy.Title,
@@ -91,7 +91,7 @@ protected fieldOptionsChanged():void{
                     label: "test",
                 
                     onPropertyChange: this.fieldOptionsChanged.bind(this),
-                    selectedKey: this.properties.listName
+                    listId: this.properties.listId
                   }),
    
   

@@ -21,10 +21,10 @@ export class PropertyPaneFieldOptionPanel implements IPropertyPaneField<IPropert
    this.properties = {
      key: properties.label,
      label: properties.label,
-     //loadOptions: properties.loadOptions,
+     listId: properties.listId,
      onPropertyChange: properties.onPropertyChange,
-     selectedKey: properties.selectedKey,
-     disabled: properties.disabled,
+     //selectedKey: properties.selectedKey,
+     //disabled: properties.disabled,
      onRender: this.onRender.bind(this)
    };
  }
@@ -38,7 +38,7 @@ export class PropertyPaneFieldOptionPanel implements IPropertyPaneField<IPropert
  }
 
  private onRender(elem: HTMLElement): void {
-     debugger;
+  
    if (!this.elem) {
      this.elem = elem;
    }
@@ -47,10 +47,8 @@ export class PropertyPaneFieldOptionPanel implements IPropertyPaneField<IPropert
      label: this.properties.label,
     
      onChanged: this.onChanged.bind(this),
-     selectedKey: this.properties.selectedKey,
-     disabled: this.properties.disabled,
-     // required to allow the component to be re-rendered by calling this.render() externally
-     stateKey: new Date().toString()
+     listId: this.properties.listId,
+     fieldOptions:[]
    });
    ReactDom.render(element, elem);
  }

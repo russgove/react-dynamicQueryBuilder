@@ -1,10 +1,14 @@
 import * as React from 'react';
 import { Dropdown, IDropdownOption } from 'office-ui-fabric-react/lib/components/Dropdown';
 import { DefaultButton, IButtonProps } from 'office-ui-fabric-react/lib/Button';
+import { DetailsList ,IColumn} from 'office-ui-fabric-react/lib/DetailsList';
 import { Spinner } from 'office-ui-fabric-react/lib/components/Spinner';
+import { Checkbox } from 'office-ui-fabric-react/lib/components/Checkbox';
 import { IFieldOptionPanelProps } from './IFieldOptionPanelProps';
 import { IFieldOptionPanelState } from './IFieldOptionPanelState';
 import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
+import {sp} from "@pnp/sp";
+import  {findIndex} from "@microsoft/sp-lodash-subset"
 
 export default class FieldOptionPanel extends React.Component<IFieldOptionPanelProps, IFieldOptionPanelState> {
     private selectedKey: React.ReactText;
@@ -12,25 +16,47 @@ export default class FieldOptionPanel extends React.Component<IFieldOptionPanelP
     constructor(props: IFieldOptionPanelProps, state: IFieldOptionPanelState) {
         debugger;
         super(props);
-        this.selectedKey = props.selectedKey;
+     
 
         this.state = {
             loading: false,
             options: undefined,
             error: undefined,
+            fieldOptions: [],
             showPanel: false // rgove added
         };
     }
 
     public componentDidMount(): void {
+       let tempFieldOptions = this.props.fieldOptions;
+       let tempFieldOptionsModifie=false;
+       sp.web.lists.getById(this.props.listId).fields.get().then((fields)=>{
+           for (let field of fields){
+               let idx = findIndex(tempFieldOptions,(fo)=>{return fo.InternalName===field.InternalName});
+               if (idx===-1){
+                   tempFieldOptions.push({
+                       InternalName:field.InternalName,
+                       Hidden: field.Hidden,
+                       Filterable: field.Filterable,
+                       Title:field.Title,
+                       TypeAsString:field.TypeAsString,
+                       listId:this.props.listId
+                   });
+                   tempFieldOptionsModifie=true;
+               }
+
+           }
+           if (tempFieldOptionsModifie){
+               this.setState((current)=>({...current, fieldOptions:tempFieldOptions}))
+           }
+
+
+       })
        
     }
 
     public componentDidUpdate(prevProps: IFieldOptionPanelProps, prevState: IFieldOptionPanelState): void {
-        if (this.props.disabled !== prevProps.disabled ||
-            this.props.stateKey !== prevProps.stateKey) {
-
-        }
+        
     }
 
 
@@ -62,7 +88,24 @@ export default class FieldOptionPanel extends React.Component<IFieldOptionPanelP
                         headerText="Non-Modal Panel"
                         closeButtonAriaLabel="Close"
                     >
-                        <span>Content goes here.</span>
+                     <DetailsList
+                        items={this.state.fieldOptions}
+                        columns={[
+                            { minWidth: 120, fieldName: "InternalName", key: "InternalName", name: "InternalName" },
+                            {
+                                minWidth: 120, fieldName: "Hidden", key: "Hidden", name: "Hidden", onRender: (item?: any, index?: number, column?: IColumn) => {
+                                    return (
+                                        <Checkbox checked={item.Hidden} />
+                                    );
+
+                                }
+                            },
+                            { minWidth: 120, fieldName: "Filterable", key: "Filterable", name: "Filterable" },
+                            { minWidth: 120, fieldName: "Title", key: "Title", name: "Title" },
+                            { minWidth: 120, fieldName: "TypeAsString", key: "TypeAsString", name: "TypeAsString" },
+                            { minWidth: 120, fieldName: "listId", key: "listId", name: "listId" },
+                        ]}
+                    />
                     </Panel>
                 </div>
             );
