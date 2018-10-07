@@ -1,22 +1,27 @@
 import * as React from 'react';
 import { Dropdown, IDropdownOption } from 'office-ui-fabric-react/lib/components/Dropdown';
 import { DefaultButton, IButtonProps } from 'office-ui-fabric-react/lib/Button';
-import { DetailsList ,IColumn} from 'office-ui-fabric-react/lib/DetailsList';
+import { DetailsList, IColumn } from 'office-ui-fabric-react/lib/DetailsList';
 import { Spinner } from 'office-ui-fabric-react/lib/components/Spinner';
+import { CommandBar } from 'office-ui-fabric-react/lib/components/CommandBar';
+import { IContextualMenuItem, IContextualMenu } from "office-ui-fabric-react/lib/ContextualMenu";
+
 import { Checkbox } from 'office-ui-fabric-react/lib/components/Checkbox';
 import { IFieldOptionPanelProps } from './IFieldOptionPanelProps';
 import { IFieldOptionPanelState } from './IFieldOptionPanelState';
 import { Panel, PanelType } from 'office-ui-fabric-react/lib/Panel';
-import {sp} from "@pnp/sp";
-import  {findIndex} from "@microsoft/sp-lodash-subset"
+import { sp } from "@pnp/sp";
+import { findIndex } from "@microsoft/sp-lodash-subset"
 
 export default class FieldOptionPanel extends React.Component<IFieldOptionPanelProps, IFieldOptionPanelState> {
     private selectedKey: React.ReactText;
-
+    private menuItems: Array<IContextualMenuItem>;
     constructor(props: IFieldOptionPanelProps, state: IFieldOptionPanelState) {
         debugger;
         super(props);
-     
+        this.menuItems = [{
+            key: "edit", icon: "Edit", name: "edit"
+        }];
 
         this.state = {
             loading: false,
@@ -28,35 +33,36 @@ export default class FieldOptionPanel extends React.Component<IFieldOptionPanelP
     }
 
     public componentDidMount(): void {
-       let tempFieldOptions = this.props.fieldOptions;
-       let tempFieldOptionsModifie=false;
-       sp.web.lists.getById(this.props.listId).fields.get().then((fields)=>{
-           for (let field of fields){
-               let idx = findIndex(tempFieldOptions,(fo)=>{return fo.InternalName===field.InternalName});
-               if (idx===-1){
-                   tempFieldOptions.push({
-                       InternalName:field.InternalName,
-                       Hidden: field.Hidden,
-                       Filterable: field.Filterable,
-                       Title:field.Title,
-                       TypeAsString:field.TypeAsString,
-                       listId:this.props.listId
-                   });
-                   tempFieldOptionsModifie=true;
-               }
+        let tempFieldOptions = this.props.fieldOptions;
+        let tempFieldOptionsModifie = false;
+        sp.web.lists.getById(this.props.listId).fields.get().then((fields) => {
+            for (let field of fields) {
+                let idx = findIndex(tempFieldOptions, (fo) => { return fo.InternalName === field.InternalName });
+                if (idx === -1) {
+                    tempFieldOptions.push({
+                        InternalName: field.InternalName,
+                        Hidden: field.Hidden,
+                        Filterable: field.Filterable,
+                        Title: field.Title,
+                        TypeAsString: field.TypeAsString,
+                        listId: this.props.listId,
+                        IncludeInResults:false,
+                    });
+                    tempFieldOptionsModifie = true;
+                }
 
-           }
-           if (tempFieldOptionsModifie){
-               this.setState((current)=>({...current, fieldOptions:tempFieldOptions}))
-           }
+            }
+            if (tempFieldOptionsModifie) {
+                this.setState((current) => ({ ...current, fieldOptions: tempFieldOptions }))
+            }
 
 
-       })
-       
+        })
+
     }
 
     public componentDidUpdate(prevProps: IFieldOptionPanelProps, prevState: IFieldOptionPanelState): void {
-        
+
     }
 
 
@@ -71,46 +77,61 @@ export default class FieldOptionPanel extends React.Component<IFieldOptionPanelP
         debugger;
         const loading: JSX.Element = this.state.loading ? <div><Spinner label={'Loading options...'} /></div> : <div />;
         const error: JSX.Element = this.state.error !== undefined ? <div className={'ms-TextField-errorMessage ms-u-slideDownIn20'}>Error while loading items: {this.state.error}</div> : <div />;
-   
-            return (
-                <div>
-                    <DefaultButton
-                        data-automation-id="test"
 
-                        text="Set Column Options"
-                        onClick={this.showPanel.bind(this)}
+        return (
+            <div>
+                <DefaultButton
+                    data-automation-id="test"
+
+                    text="Set Column Options"
+                    onClick={this.showPanel.bind(this)}
+                />
+                <Panel
+                    isBlocking={false}
+                    isOpen={this.state.showPanel}
+                    onDismiss={this.hidePanel.bind(this)}
+                    type={PanelType.extraLarge}
+                    headerText="Non-Modal Panel"
+                    closeButtonAriaLabel="Close"
+                >
+                    <CommandBar
+                        isSearchBoxVisible={false}
+                        items={this.menuItems}
+
+
                     />
-                    <Panel
-                        isBlocking={false}
-                        isOpen={this.state.showPanel}
-                        onDismiss={this.hidePanel.bind(this)}
-                        type={PanelType.medium}
-                        headerText="Non-Modal Panel"
-                        closeButtonAriaLabel="Close"
-                    >
-                     <DetailsList
+                    <DetailsList
                         items={this.state.fieldOptions}
                         columns={[
-                            { minWidth: 120, fieldName: "InternalName", key: "InternalName", name: "InternalName" },
+                            { isResizable: true, minWidth: 12, fieldName: "InternalName", key: "InternalName", name: "InternalName" },
                             {
-                                minWidth: 120, fieldName: "Hidden", key: "Hidden", name: "Hidden", onRender: (item?: any, index?: number, column?: IColumn) => {
+                                isResizable: true,
+                                minWidth: 70, fieldName: "Hidden", key: "Hidden", name: "Hidden", onRender: (item?: any, index?: number, column?: IColumn) => {
                                     return (
                                         <Checkbox checked={item.Hidden} />
                                     );
 
                                 }
                             },
-                            { minWidth: 120, fieldName: "Filterable", key: "Filterable", name: "Filterable" },
-                            { minWidth: 120, fieldName: "Title", key: "Title", name: "Title" },
-                            { minWidth: 120, fieldName: "TypeAsString", key: "TypeAsString", name: "TypeAsString" },
-                            { minWidth: 120, fieldName: "listId", key: "listId", name: "listId" },
+                            {
+                                isResizable: true,
+                                minWidth: 70, fieldName: "Filterable", key: "Filterable", name: "Filterable", onRender: (item?: any, index?: number, column?: IColumn) => {
+                                    return (
+                                        <Checkbox checked={item.Filterable} />
+                                    );
+
+                                }
+                            },
+                            { isResizable: true, minWidth: 120, fieldName: "Title", key: "Title", name: "Title" },
+                            { isResizable: true, minWidth: 100, fieldName: "TypeAsString", key: "TypeAsString", name: "TypeAsString" },
+                            { isResizable: true, minWidth: 70, fieldName: "listId", key: "listId", name: "listId" },
                         ]}
                     />
-                    </Panel>
-                </div>
-            );
-        }
-   
+                </Panel>
+            </div>
+        );
+    }
+
     private onChanged(option: IDropdownOption, index?: number): void {
         this.selectedKey = option.key;
         // reset previously selected options
