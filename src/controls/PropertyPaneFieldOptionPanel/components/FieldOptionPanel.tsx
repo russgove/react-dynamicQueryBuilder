@@ -26,9 +26,7 @@ export default class FieldOptionPanel extends React.Component<IFieldOptionPanelP
             key: "edit", icon: "Edit", name: "Edit Column Options",
             onClick: (ev?: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>, item?: IContextualMenuItem): boolean | void => {
                 debugger;
-               
-               
-               this.setState((current)=>({...current, editingFieldOption:true}))
+               this.setState((current) => ({ ...current, editingFieldOption: true }))
             }
         }];
 
@@ -143,17 +141,11 @@ export default class FieldOptionPanel extends React.Component<IFieldOptionPanelP
                             { isResizable: true, minWidth: 70, fieldName: "listId", key: "listId", name: "listId" },
                         ]}
                     />
-                    <Dialog isBlocking={true}
-                        hidden={!this.state.editingFieldOption}
-                        onDismiss={(e) => { this.setState((current) => ({ ...current, showApprovalPopup: false })); }}
-                        dialogContentProps={{
-                            type: DialogType.close,
-                            title: "update it",
+                    <Panel isBlocking={true}
+                        isOpen={this.state.editingFieldOption}>
 
-                            subText: 'All selected items will be updated with the following values'
-                        }} >
                         <div>YO</div>
-                    </Dialog>
+                    </Panel>
                 </Panel>
             </div>
         );
