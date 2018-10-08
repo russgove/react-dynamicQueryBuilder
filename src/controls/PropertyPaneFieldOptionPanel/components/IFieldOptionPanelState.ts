@@ -8,4 +8,5 @@ export interface IFieldOptionPanelState {
  fieldOptions:Array<FieldOptions>;
  selectedFieldId:string;
  selectedListId:string;
+ editingFieldOption:boolean;
 }

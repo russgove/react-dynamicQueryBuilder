@@ -4,6 +4,7 @@ import { DefaultButton, IButtonProps } from 'office-ui-fabric-react/lib/Button';
 import { DetailsList, IColumn, SelectionMode, Selection, } from 'office-ui-fabric-react/lib/DetailsList';
 import { Spinner } from 'office-ui-fabric-react/lib/components/Spinner';
 import { CommandBar } from 'office-ui-fabric-react/lib/components/CommandBar';
+import { Dialog, DialogType } from 'office-ui-fabric-react/lib/components/Dialog';
 import { IContextualMenuItem, IContextualMenu } from "office-ui-fabric-react/lib/ContextualMenu";
 
 import { Checkbox } from 'office-ui-fabric-react/lib/components/Checkbox';
@@ -25,8 +26,9 @@ export default class FieldOptionPanel extends React.Component<IFieldOptionPanelP
             key: "edit", icon: "Edit", name: "Edit Column Options",
             onClick: (ev?: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>, item?: IContextualMenuItem): boolean | void => {
                 debugger;
-           //     this.selection.
-            //    this.setState((current)=>({...current, selectedFieldId:item.}))
+               
+               
+               this.setState((current)=>({...current, editingFieldOption:true}))
             }
         }];
 
@@ -38,6 +40,7 @@ export default class FieldOptionPanel extends React.Component<IFieldOptionPanelP
             showPanel: false, // rgove added
             selectedFieldId: null,
             selectedListId: null,
+            editingFieldOption: false
 
         };
     }
@@ -112,8 +115,8 @@ export default class FieldOptionPanel extends React.Component<IFieldOptionPanelP
 
                     />
                     <DetailsList
-                    selection={this.selection}
-                    selectionMode={SelectionMode.single}
+                        selection={this.selection}
+                        selectionMode={SelectionMode.single}
                         items={this.state.fieldOptions}
                         columns={[
                             { isResizable: true, minWidth: 12, fieldName: "InternalName", key: "InternalName", name: "InternalName" },
@@ -140,6 +143,17 @@ export default class FieldOptionPanel extends React.Component<IFieldOptionPanelP
                             { isResizable: true, minWidth: 70, fieldName: "listId", key: "listId", name: "listId" },
                         ]}
                     />
+                    <Dialog isBlocking={true}
+                        hidden={!this.state.editingFieldOption}
+                        onDismiss={(e) => { this.setState((current) => ({ ...current, showApprovalPopup: false })); }}
+                        dialogContentProps={{
+                            type: DialogType.close,
+                            title: "update it",
+
+                            subText: 'All selected items will be updated with the following values'
+                        }} >
+                        <div>YO</div>
+                    </Dialog>
                 </Panel>
             </div>
         );
