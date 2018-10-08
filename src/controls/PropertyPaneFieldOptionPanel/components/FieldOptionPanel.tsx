@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { Dropdown, IDropdownOption } from 'office-ui-fabric-react/lib/components/Dropdown';
 import { DefaultButton, IButtonProps } from 'office-ui-fabric-react/lib/Button';
-import { DetailsList, IColumn } from 'office-ui-fabric-react/lib/DetailsList';
+import { DetailsList, IColumn, SelectionMode, Selection, } from 'office-ui-fabric-react/lib/DetailsList';
 import { Spinner } from 'office-ui-fabric-react/lib/components/Spinner';
 import { CommandBar } from 'office-ui-fabric-react/lib/components/CommandBar';
 import { IContextualMenuItem, IContextualMenu } from "office-ui-fabric-react/lib/ContextualMenu";
@@ -16,11 +16,18 @@ import { findIndex } from "@microsoft/sp-lodash-subset"
 export default class FieldOptionPanel extends React.Component<IFieldOptionPanelProps, IFieldOptionPanelState> {
     private selectedKey: React.ReactText;
     private menuItems: Array<IContextualMenuItem>;
+    private selection: Selection = new Selection();
     constructor(props: IFieldOptionPanelProps, state: IFieldOptionPanelState) {
-        debugger;
         super(props);
+        debugger;
+        this.selection.getKey = (item => { return item["Id"]; });
         this.menuItems = [{
-            key: "edit", icon: "Edit", name: "edit"
+            key: "edit", icon: "Edit", name: "Edit Column Options",
+            onClick: (ev?: React.MouseEvent<HTMLElement> | React.KeyboardEvent<HTMLElement>, item?: IContextualMenuItem): boolean | void => {
+                debugger;
+           //     this.selection.
+            //    this.setState((current)=>({...current, selectedFieldId:item.}))
+            }
         }];
 
         this.state = {
@@ -28,36 +35,40 @@ export default class FieldOptionPanel extends React.Component<IFieldOptionPanelP
             options: undefined,
             error: undefined,
             fieldOptions: [],
-            showPanel: false // rgove added
+            showPanel: false, // rgove added
+            selectedFieldId: null,
+            selectedListId: null,
+
         };
     }
 
     public componentDidMount(): void {
         let tempFieldOptions = this.props.fieldOptions;
         let tempFieldOptionsModifie = false;
-        sp.web.lists.getById(this.props.listId).fields.get().then((fields) => {
-            for (let field of fields) {
-                let idx = findIndex(tempFieldOptions, (fo) => { return fo.InternalName === field.InternalName });
-                if (idx === -1) {
-                    tempFieldOptions.push({
-                        InternalName: field.InternalName,
-                        Hidden: field.Hidden,
-                        Filterable: field.Filterable,
-                        Title: field.Title,
-                        TypeAsString: field.TypeAsString,
-                        listId: this.props.listId,
-                        IncludeInResults:false,
-                    });
-                    tempFieldOptionsModifie = true;
+        sp.web.lists.getById(this.props.listId).fields.get()
+            .then((fields) => {
+                for (let field of fields) {
+                    let idx = findIndex(tempFieldOptions, (fo) => { return fo.InternalName === field.InternalName });
+                    if (idx === -1) {
+                        tempFieldOptions.push({
+                            InternalName: field.InternalName,
+                            Hidden: field.Hidden,
+                            Filterable: field.Filterable,
+                            Title: field.Title,
+                            TypeAsString: field.TypeAsString,
+                            listId: this.props.listId,
+                            IncludeInResults: false,
+                        });
+                        tempFieldOptionsModifie = true;
+                    }
+
                 }
-
-            }
-            if (tempFieldOptionsModifie) {
-                this.setState((current) => ({ ...current, fieldOptions: tempFieldOptions }))
-            }
-
-
-        })
+                if (tempFieldOptionsModifie) {
+                    this.setState((current) => ({ ...current, fieldOptions: tempFieldOptions }))
+                }
+            }).catch((e) => {
+                debugger;
+            })
 
     }
 
@@ -101,6 +112,8 @@ export default class FieldOptionPanel extends React.Component<IFieldOptionPanelP
 
                     />
                     <DetailsList
+                    selection={this.selection}
+                    selectionMode={SelectionMode.single}
                         items={this.state.fieldOptions}
                         columns={[
                             { isResizable: true, minWidth: 12, fieldName: "InternalName", key: "InternalName", name: "InternalName" },

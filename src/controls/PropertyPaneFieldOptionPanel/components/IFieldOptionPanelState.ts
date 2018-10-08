@@ -6,4 +6,6 @@ export interface IFieldOptionPanelState {
  error: string;
  showPanel:boolean;
  fieldOptions:Array<FieldOptions>;
+ selectedFieldId:string;
+ selectedListId:string;
 }
